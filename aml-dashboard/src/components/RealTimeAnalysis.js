@@ -1,22 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Card, CardHeader, CardContent } from './ui/card';
-import { Button } from './ui/button';
-import { Alert, AlertDescription } from './ui/alert';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { Box, Typography, TextField, Button, Card, CardContent, Grid } from '@mui/material';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import '../styles/RealTimeAnalysis.css';
 
 const RealTimeAnalysis = () => {
   const [transactions, setTransactions] = useState([]);
   const [alerts, setAlerts] = useState([]);
+  const [amount, setAmount] = useState('');
+  const [recipient, setRecipient] = useState('');
   const [riskScore, setRiskScore] = useState(0);
-  const [transactionDistribution, setTransactionDistribution] = useState([
-    { name: 'Low Risk', value: 70 },
-    { name: 'Medium Risk', value: 20 },
-    { name: 'High Risk', value: 10 },
-  ]);
-
-  const COLORS = ['#2ecc71', '#f39c12', '#e74c3c'];
+  const [aiPrediction, setAiPrediction] = useState('');
 
   const addTransaction = useCallback((newTransaction) => {
     setTransactions(prev => [...prev, { ...newTransaction, time: new Date().toLocaleTimeString() }].slice(-20));
@@ -31,125 +24,112 @@ const RealTimeAnalysis = () => {
     setRiskScore(score);
     
     if (score > 80) {
-      addAlert(`High-risk transaction detected: $${transaction.amount}`, score);
+      addAlert(`High-risk transaction detected: $${transaction.amount} to ${transaction.recipient}`, score);
+      setAiPrediction('Potential money laundering attempt');
     } else if (score > 60) {
-      addAlert(`Medium-risk transaction detected: $${transaction.amount}`, score);
+      addAlert(`Medium-risk transaction detected: $${transaction.amount} to ${transaction.recipient}`, score);
+      setAiPrediction('Unusual activity detected');
+    } else {
+      setAiPrediction('Transaction appears normal');
     }
     
     return score;
   }, [addAlert]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const transaction = { amount: parseFloat(amount), recipient };
+    const score = analyzeTransaction(transaction);
+    addTransaction({ ...transaction, score });
+    setAmount('');
+    setRecipient('');
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       const randomAmount = Math.floor(Math.random() * 10000);
-      const transaction = { amount: randomAmount };
+      const randomRecipient = `User${Math.floor(Math.random() * 100)}`;
+      const transaction = { amount: randomAmount, recipient: randomRecipient };
       const score = analyzeTransaction(transaction);
-      if (score <= 80) {
-        addTransaction({ ...transaction, score });
-      }
-
-      setTransactionDistribution(prev => {
-        const newDist = [...prev];
-        if (score > 80) newDist[2].value++;
-        else if (score > 60) newDist[1].value++;
-        else newDist[0].value++;
-        return newDist;
-      });
+      addTransaction({ ...transaction, score });
     }, 3000);
 
     return () => clearInterval(interval);
   }, [addTransaction, analyzeTransaction]);
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-4">
-        <Card>
-          <CardHeader>
-            <h3 className="text-xl font-semibold">Transaction Flow</h3>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={transactions}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="time" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="amount" stroke="#3498db" name="Amount" />
-                  <Line type="monotone" dataKey="score" stroke="#e74c3c" name="Risk Score" />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <h3 className="text-xl font-semibold">Risk Distribution</h3>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={transactionDistribution}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {transactionDistribution.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <h3 className="text-xl font-semibold">Current Risk Score</h3>
-          </CardHeader>
-          <CardContent className="flex justify-center items-center h-64">
-            <div style={{ width: '200px', height: '200px' }}>
-              <CircularProgressbar
-                value={riskScore}
-                text={`${riskScore.toFixed(0)}%`}
-                styles={buildStyles({
-                  textColor: riskScore > 80 ? '#e74c3c' : riskScore > 60 ? '#f39c12' : '#2ecc71',
-                  pathColor: riskScore > 80 ? '#e74c3c' : riskScore > 60 ? '#f39c12' : '#2ecc71',
-                  trailColor: 'rgba(255,255,255,0.2)',
-                })}
-              />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <h3 className="text-xl font-semibold">Real-time Alerts</h3>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2 max-h-40 overflow-y-auto">
-            {alerts.map((alert, index) => (
-              <Alert key={index} variant={alert.score > 80 ? 'destructive' : 'default'}>
-                <AlertDescription>
-                  [{alert.time}] {alert.message} (Score: {alert.score.toFixed(2)})
-                </AlertDescription>
-              </Alert>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <Box>
+      <Typography variant="h4" gutterBottom>Real-time AML Transaction Analysis</Typography>
+      <Typography variant="body1" paragraph>
+        Our AI is analyzing transactions in real-time, instantly identifying suspicious activities.
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Amount"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              value={recipient}
+              onChange={(e) => setRecipient(e.target.value)}
+              placeholder="Recipient"
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Button type="submit" variant="contained" fullWidth>Send Transaction</Button>
+          </Grid>
+        </Grid>
+      </Box>
+      <Box sx={{ height: 300, mb: 4 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={transactions}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="time" />
+            <YAxis yAxisId="left" />
+            <YAxis yAxisId="right" orientation="right" domain={[0, 100]} />
+            <Tooltip />
+            <Legend />
+            <Line yAxisId="left" type="monotone" dataKey="amount" stroke="#8884d8" name="Transaction Amount" />
+            <Line yAxisId="right" type="monotone" dataKey="score" stroke="#82ca9d" name="Risk Score" />
+          </LineChart>
+        </ResponsiveContainer>
+      </Box>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6}>
+          <Card className="ai-feature">
+            <CardContent>
+              <Typography variant="h6" gutterBottom>AI Risk Assessment</Typography>
+              <Typography variant="h4" color={riskScore > 80 ? 'error' : riskScore > 60 ? 'warning.main' : 'success.main'}>
+                {riskScore.toFixed(2)}
+              </Typography>
+              <Typography variant="body2">Current transaction risk score</Typography>
+              <Typography variant="body1" sx={{ mt: 2 }}>AI Prediction: {aiPrediction}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>Real-time Alerts</Typography>
+              {alerts.map((alert, index) => (
+                <Box key={index} sx={{ mb: 1 }}>
+                  <Typography variant="body2" color="text.secondary">[{alert.time}]</Typography>
+                  <Typography variant="body1">{alert.message}</Typography>
+                  <Typography variant="body2">Score: {alert.score.toFixed(2)}</Typography>
+                </Box>
+              ))}
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

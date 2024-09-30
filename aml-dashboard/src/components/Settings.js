@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
+import { Card, CardHeader, CardContent, Button, TextField, Typography, Box, Switch, FormControlLabel } from '@mui/material';
 import { AlertCircle, AlertTriangle } from 'lucide-react';
-import { Button } from './ui/button';
-import Input from './ui/input'; // Ensure it's a default import
-import { Card, CardHeader, CardContent } from './ui/card';
 
 const Settings = () => {
   const [dataSource, setDataSource] = useState('');
@@ -20,75 +18,83 @@ const Settings = () => {
   };
 
   return (
-    <div className="space-y-4 p-4">
-      <h2 className="text-2xl font-bold">System Settings</h2>
-      <p className="mb-4">Configure data sources, alert thresholds, and other system parameters.</p>
+    <Box sx={{ p: 2, color: 'var(--text-color)' }}>
+      <Typography variant="h4" gutterBottom sx={{ color: 'var(--primary-color)' }}>System Settings</Typography>
+      <Typography variant="body1" paragraph>
+        Configure data sources, alert thresholds, and other system parameters.
+      </Typography>
 
-      <Card>
-        <CardHeader>
-          <h3 className="text-xl font-semibold">Data Source Configuration</h3>
-        </CardHeader>
+      <Card sx={{ bgcolor: 'var(--card-background)', color: 'var(--text-color)' }}>
+        <CardHeader title="Data Source Configuration" sx={{ color: 'var(--primary-color)' }} />
         <CardContent>
-          <form onSubmit={handleSaveSettings} className="space-y-4">
-            <div>
-              <label className="block mb-1" htmlFor="dataSource">Data Source URL:</label>
-              <Input
-                id="dataSource"
-                type="text"
+          <Box component="form" onSubmit={handleSaveSettings}>
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                label="Data Source URL"
                 value={dataSource}
                 onChange={(e) => setDataSource(e.target.value)}
                 placeholder="Enter data source URL"
-                className="w-full"
+                sx={{
+                  '& .MuiInputBase-input': { color: 'var(--text-color)' },
+                  '& .MuiInputLabel-root': { color: 'var(--text-color)' },
+                  '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'var(--border-color)' } },
+                }}
               />
-            </div>
+            </Box>
 
-            <div>
-              <label className="block mb-1" htmlFor="alertThreshold">Alert Threshold (%):</label>
-              <Input
-                id="alertThreshold"
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
                 type="number"
+                label="Alert Threshold (%)"
                 value={alertThreshold}
                 onChange={(e) => setAlertThreshold(e.target.value)}
                 placeholder="Set alert threshold"
-                className="w-full"
+                sx={{
+                  '& .MuiInputBase-input': { color: 'var(--text-color)' },
+                  '& .MuiInputLabel-root': { color: 'var(--text-color)' },
+                  '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'var(--border-color)' } },
+                }}
               />
-            </div>
+            </Box>
 
-            <div>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
+            <FormControlLabel
+              control={
+                <Switch
                   checked={notificationEnabled}
                   onChange={() => setNotificationEnabled(!notificationEnabled)}
-                  className="mr-2"
+                  sx={{ '& .MuiSwitch-switchBase.Mui-checked': { color: 'var(--primary-color)' } }}
                 />
-                Enable Notifications
-              </label>
-            </div>
+              }
+              label="Enable Notifications"
+            />
 
-            <Button type="submit" className="mt-2">Save Settings</Button>
-          </form>
+            <Button type="submit" variant="contained" sx={{ mt: 2, bgcolor: 'var(--secondary-color)', '&:hover': { bgcolor: 'var(--secondary-color-dark)' } }}>
+              Save Settings
+            </Button>
+          </Box>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <h3 className="text-xl font-semibold">System Alerts</h3>
-        </CardHeader>
+      <Card sx={{ mt: 2, bgcolor: 'var(--card-background)', color: 'var(--text-color)' }}>
+        <CardHeader title="System Alerts" sx={{ color: 'var(--primary-color)' }} />
         <CardContent>
-          <div className="space-y-2">
-            <div className="flex items-center">
-              <AlertCircle className="mr-2 text-red-600" />
-              <span>High-risk transaction alerts will be sent when risk score exceeds threshold.</span>
-            </div>
-            <div className="flex items-center">
-              <AlertTriangle className="mr-2 text-yellow-600" />
-              <span>Medium-risk transaction alerts are informational and for review.</span>
-            </div>
-          </div>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+            <AlertCircle color="var(--accent-color)" sx={{ mr: 1 }} />
+            <Typography variant="body2">
+              High-risk transaction alerts will be sent when risk score exceeds threshold.
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <AlertTriangle color="var(--secondary-color)" sx={{ mr: 1 }} />
+            <Typography variant="body2">
+              Medium-risk transaction alerts are informational and for review.
+            </Typography>
+          </Box>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   );
 };
 

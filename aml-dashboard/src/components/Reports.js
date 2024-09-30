@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
+import { Card, CardHeader, CardContent, Button, Typography, Box } from '@mui/material';
 
 const Reports = () => {
   const [selectedReport, setSelectedReport] = useState(null);
@@ -26,44 +27,53 @@ const Reports = () => {
   };
 
   return (
-    <div className="p-6 bg-white">
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-blue-500 mb-4">Compliance Reports</h2>
-        <p className="text-gray-600 mb-6">
-          Generate detailed reports and alerts for compliance purposes, including actionable insights.
-        </p>
+    <Box sx={{ p: 3, bgcolor: 'var(--background-color)', color: 'var(--text-color)' }}>
+      <Card sx={{ bgcolor: 'var(--card-background)', color: 'var(--text-color)' }}>
+        <CardContent>
+          <Typography variant="h4" sx={{ color: 'var(--primary-color)' }} gutterBottom>
+            Compliance Reports
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'var(--text-color)' }} paragraph>
+            Generate detailed reports and alerts for compliance purposes, including actionable insights.
+          </Typography>
 
-        {reportTypes.map((report, index) => (
-          <div key={index} className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">{report.title}</h3>
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-600"
-              onClick={() => setSelectedReport(report)}
-            >
-              View
-            </button>
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-              onClick={() => generatePDF(report.title, report.data)}
-            >
-              Download PDF
-            </button>
-          </div>
-        ))}
+          {reportTypes.map((report, index) => (
+            <Box key={index} sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ color: 'var(--secondary-color)' }} gutterBottom>
+                {report.title}
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{ mr: 1, bgcolor: 'var(--primary-color)', '&:hover': { bgcolor: 'var(--primary-dark)' } }}
+                onClick={() => setSelectedReport(report)}
+              >
+                View
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ bgcolor: 'var(--secondary-color)', '&:hover': { bgcolor: 'var(--secondary-color-dark)' } }}
+                onClick={() => generatePDF(report.title, report.data)}
+              >
+                Download PDF
+              </Button>
+            </Box>
+          ))}
 
-        {selectedReport && (
-          <div className="mt-8 border-t pt-4">
-            <h3 className="text-xl font-semibold text-blue-500 mb-2">{selectedReport.title} Details</h3>
-            <pre className="bg-gray-100 p-4 rounded text-sm">
-              {JSON.stringify(selectedReport.data, null, 2)}
-            </pre>
-          </div>
-        )}
-      </div>
-    </div>
+          {selectedReport && (
+            <Box sx={{ mt: 4, pt: 2, borderTop: 1, borderColor: 'var(--border-color)' }}>
+              <Typography variant="h5" sx={{ color: 'var(--primary-color)' }} gutterBottom>
+                {selectedReport.title} Details
+              </Typography>
+              <pre style={{ backgroundColor: 'var(--card-background)', color: 'var(--text-color)', padding: '16px', borderRadius: '4px', fontSize: '0.875rem', overflowX: 'auto' }}>
+                {JSON.stringify(selectedReport.data, null, 2)}
+              </pre>
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
-
 function generateSuspiciousActivityData() {
   return {
     totalAlerts: Math.floor(Math.random() * 1000) + 500,
