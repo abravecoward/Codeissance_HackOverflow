@@ -41,7 +41,7 @@ print("Classification Report:")
 print(classification_report(y_test, y_pred))
 
 # Hyperparameter tuning using GridSearchCV
-param_grid = {
+param_grid = {  
     'n_estimators': [100, 200, 300],
     'max_depth': [10, 20, None],
     'min_samples_split': [2, 5, 10],
@@ -138,3 +138,10 @@ print("Test Confusion Matrix:")
 print(confusion_matrix(y_test, y_test_pred))
 print("Test Classification Report:")
 print(classification_report(y_test, y_test_pred))
+import joblib
+
+# Save the trained model
+joblib.dump(best_rf, r'C:\Users\manas\Downloads\Codeissance_HackOverflow\aml_system\anomaly_detection_model.pkl')
+
+joblib.dump(le_action, 'le_action.pkl')
+joblib.dump(le_fraud, 'le_fraud.pkl')
