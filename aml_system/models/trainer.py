@@ -133,7 +133,7 @@ y_test_pred = best_rf.predict(X_test)
 
 # Evaluate the test model
 test_accuracy = accuracy_score(y_test, y_test_pred)
-print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
+print(f"Test Accuracy: {test_accuracy * 100:.2f}%"
 print("Test Confusion Matrix:")
 print(confusion_matrix(y_test, y_test_pred))
 print("Test Classification Report:")
