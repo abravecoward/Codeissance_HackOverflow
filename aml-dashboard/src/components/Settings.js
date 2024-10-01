@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardContent, Button, TextField, Typography, Box, Switch, FormControlLabel } from '@mui/material';
 import { AlertCircle, AlertTriangle } from 'lucide-react';
 
@@ -7,14 +7,32 @@ const Settings = () => {
   const [alertThreshold, setAlertThreshold] = useState(80);
   const [notificationEnabled, setNotificationEnabled] = useState(true);
 
+  useEffect(() => {
+    // Load saved settings from local storage when component mounts
+    const savedSettings = JSON.parse(localStorage.getItem('systemSettings'));
+    if (savedSettings) {
+      setDataSource(savedSettings.dataSource || '');
+      setAlertThreshold(savedSettings.alertThreshold || 80);
+      setNotificationEnabled(savedSettings.notificationEnabled ?? true);
+    }
+  }, []);
+
   const handleSaveSettings = (e) => {
     e.preventDefault();
-    // Handle saving the settings (e.g., send to an API or save to local storage)
-    console.log({
+    const settings = {
       dataSource,
       alertThreshold,
       notificationEnabled,
-    });
+    };
+    
+    // Save settings to local storage
+    localStorage.setItem('systemSettings', JSON.stringify(settings));
+    
+    // You can also send these settings to an API if needed
+    console.log('Settings saved:', settings);
+    
+    // Optionally, you can show a success message to the user
+    alert('Settings saved successfully!');
   };
 
   return (

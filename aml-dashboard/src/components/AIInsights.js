@@ -26,7 +26,7 @@ const AIInsights = () => {
       
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <Card className="ai-feature">
+          <Card className="ai-feature" sx={{ backgroundColor: 'black', color: 'white' }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>Anomaly Detection</Typography>
               <Typography variant="body1">
@@ -36,7 +36,7 @@ const AIInsights = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card className="ai-feature">
+          <Card className="ai-feature" sx={{ backgroundColor: 'black', color: 'white' }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>Predictive Risk Scoring</Typography>
               <Typography variant="body1">
@@ -46,7 +46,7 @@ const AIInsights = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card className="ai-feature">
+          <Card className="ai-feature" sx={{ backgroundColor: 'black', color: 'white' }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>Natural Language Processing</Typography>
               <Typography variant="body1">
@@ -56,7 +56,7 @@ const AIInsights = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card className="ai-feature">
+          <Card className="ai-feature" sx={{ backgroundColor: 'black', color: 'white' }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>Network Analysis</Typography>
               <Typography variant="body1">

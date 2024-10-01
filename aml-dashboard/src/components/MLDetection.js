@@ -31,24 +31,12 @@ const MLDetection = () => {
       type: anomalyTypes[Math.floor(Math.random() * anomalyTypes.length)],
       score: Math.floor(Math.random() * 100),
       time: new Date().toLocaleTimeString(),
-      aiExplanation: generateAIExplanation(),
     }));
     setDetectedAnomalies(newAnomalies);
   };
 
-  const generateAIExplanation = () => {
-    const explanations = [
-      "Transaction pattern deviates significantly from historical behavior.",
-      "Multiple small transactions aggregating to a large sum detected.",
-      "Unusual cross-border activity observed with high-risk jurisdictions.",
-      "Rapid succession of transactions indicates potential layering.",
-      "Account activity inconsistent with customer profile and risk assessment.",
-    ];
-    return explanations[Math.floor(Math.random() * explanations.length)];
-  };
-
   const updateModelAccuracy = () => {
-    setModelAccuracy(95 + Math.random() * 4); // Random accuracy between 95% and 99%
+    setModelAccuracy(95 + Math.random() * 4);
   };
 
   return (
@@ -72,9 +60,8 @@ const MLDetection = () => {
         <Grid item xs={12} md={4}>
           <Card className="ai-feature">
             <CardContent>
-              <Typography variant="h6" gutterBottom>Model Performance</Typography>
+              <Typography variant="h6" gutterBottom>Model Accuracy</Typography>
               <Typography variant="h4" color="primary">{modelAccuracy.toFixed(2)}%</Typography>
-              <Typography variant="body2">Current model accuracy</Typography>
               <Button onClick={updateModelAccuracy} variant="contained" sx={{ mt: 2 }}>
                 Retrain Model
               </Button>
@@ -85,7 +72,7 @@ const MLDetection = () => {
       <Button onClick={() => { generatePatternData(); generateAnomalies(); }} variant="contained" sx={{ mb: 4 }}>
         Refresh Analysis
       </Button>
-      <Typography variant="h5" gutterBottom>AI-Detected Anomalies</Typography>
+      <Typography variant="h5" gutterBottom>Detected Anomalies</Typography>
       <Grid container spacing={2}>
         {detectedAnomalies.map((anomaly, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
@@ -94,7 +81,6 @@ const MLDetection = () => {
                 <Typography variant="h6">{anomaly.type}</Typography>
                 <Typography variant="body1">Score: {anomaly.score}</Typography>
                 <Typography variant="body2">Detected at: {anomaly.time}</Typography>
-                <Typography variant="body2" sx={{ mt: 1, fontStyle: 'italic' }}>AI Explanation: {anomaly.aiExplanation}</Typography>
               </CardContent>
             </Card>
           </Grid>

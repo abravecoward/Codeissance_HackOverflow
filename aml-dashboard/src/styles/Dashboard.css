@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary-color: #10b981;
+  --secondary-color-dark: #059669;
+  --accent-color: #f59e0b;
+  --background-color: #0f172a;
+  --card-background: #1e293b;
+  --text-color: #ffffff;
+  --text-color-muted: #a0c4ff;
+  --border-color: #334155;
+  --hover-color: #2d3748;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+}
+
+li {
+  color: var(--text-color);
+}
+
+.index-item {
+  color: var(--text-color);
+}
+
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+h1, h2, h3 {
+  color: var(--text-color);
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.react-tabs__tab-list {
+  border-bottom: 2px solid var(--border-color);
+  display: flex;
+  padding: 0;
+  margin: 0 0 2rem;
+  justify-content: center;
+}
+
+.react-tabs__tab {
+  list-style: none;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+  margin-right: 0.75rem;
+  transition: all 0.3s ease;
+  border-radius: 0.5rem 0.5rem 0 0;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+}
+
+.css-6fm6rz-MuiPaper-root-MuiCard-root {
+  background-color: rgba(0, 0, 0, 0.87);
+  color: var(--text-color);
+}
+
+.react-tabs__tab--selected {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 -4px 6px rgba(99, 102, 241, 0.3);
+  transform: translateY(-5px);
+}
+
+.react-tabs__tab:hover {
+  background-color: var(--hover-color);
+}
+
+.react-tabs__tab-panel {
+  background-color: var(--card-background);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.tab-panel-container {
+  perspective: 1000px;
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+}
+
+button:hover {
+  background-color: var(--secondary-color-dark);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 8px rgba(16, 185, 129, 0.3);
+}
+
+input[type="text"], input[type="number"], select {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.75rem 0;
+  display: inline-block;
+  border: 2px solid var(--border-color);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.card {
+  background-color: var(--card-background);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 768px) {
+  .grid-cols-2, .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.text-center { text-align: center; }
+
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.alert-default {
+  background-color: rgba(99, 102, 241, 0.2);
+  border: 1px solid var(--primary-color);
+}
+
+.alert-destructive {
+  background-color: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+}
+
+.ai-feature {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 15px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s ease;
+}
+
+.ai-feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 20px rgba(99, 102, 241, 0.4);
+}
+
+.ai-feature h3 {
+  color: white;
+  margin-top: 0;
+}
+
+.ai-feature p {
+  margin-bottom: 0;
+}
+
+.MuiTypography-root {
+  color: var(--text-color);
+}
+
+.MuiTypography-colorTextSecondary {
+  color: var(--text-color-muted);
+}
+
+.MuiInputBase-root {
+  color: var(--text-color) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--border-color) !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--primary-color) !important;
+}
+
+.MuiSwitch-root {
+  color: var(--primary-color) !important;
+}
+
+.MuiSwitch-track {
+  background-color: var(--text-color-muted) !important;
+}
+
+.MuiCardHeader-root {
+  color: var(--text-color);
+}
+
+.MuiCardContent-root {
+  color: var(--text-color);
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--border-color);
+}
+
+.recharts-text {
+  fill: var(--text-color);
+}
+
+.recharts-legend-item-text {
+  color: var(--text-color) !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}

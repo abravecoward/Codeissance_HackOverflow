@@ -12,6 +12,7 @@
   --text-color-muted: #94a3b8;
   --border-color: #334155;
   --hover-color: #2d3748;
+  --text-color-dark: #333333;
 }
 
 body {
@@ -63,9 +64,17 @@ h1 {
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
   font-weight: 500;
 }
+
 .css-6fm6rz-MuiPaper-root-MuiCard-root {
   background-color: rgba(0, 0, 0, 0.87);
+  color: var(--text-color);
 }
+
+.white-background {
+  background-color: white;
+  color: var(--text-color-dark);
+}
+
 .react-tabs__tab--selected {
   background-color: var(--primary-color);
   color: white;
@@ -204,7 +213,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus {
   margin-bottom: 0;
 }
 
-/* New styles for improved visibility and consistency */
 .MuiTypography-root {
   color: var(--text-color);
 }
@@ -215,6 +223,10 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus {
 
 .MuiInputBase-root {
   color: var(--text-color) !important;
+}
+
+.white-background .MuiInputBase-root {
+  color: var(--text-color-dark) !important;
 }
 
 .MuiOutlinedInput-notchedOutline {
@@ -241,7 +253,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus {
   color: var(--text-color);
 }
 
-/* Improved chart styles */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
   stroke: var(--border-color);
@@ -255,7 +266,6 @@ input[type="text"]:focus, input[type="number"]:focus, select:focus {
   color: var(--text-color) !important;
 }
 
-/* Scrollbar styles for better visibility */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
